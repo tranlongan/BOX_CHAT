@@ -13,7 +13,7 @@ public class server_Interface extends JFrame {
     JScrollPane jScrollPane;
 
     public server_Interface(int port) {
-        this.setLocation(575, 80);
+        this.setLocation(560, 80);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         addressPanel1 = new JPanel();

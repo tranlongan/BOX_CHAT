@@ -13,6 +13,7 @@ public class Login extends JFrame {
     JPasswordField tfMk, tfXnMk;
     JButton btnDn, btnDn_Hiden, btnDk, btnDk_Hiden;
     ImageIcon img;
+    String getName;
 
     Connection conn;
     Statement sm;
@@ -52,7 +53,7 @@ public class Login extends JFrame {
 
         panelBtn = new JPanel();
         panelBtn.setLayout(new BoxLayout(panelBtn, BoxLayout.X_AXIS));
-        panelBtn.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//        panelBtn.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
         btnDn = new JButton("Đăng nhập");
         btnDk = new JButton("Đăng ký");
 
@@ -104,7 +105,8 @@ public class Login extends JFrame {
                             tk_rs = rs.getString("tai_khoan");
                             mk_rs = rs.getString("mat_khau");
                             if (tk.equals(tk_rs) && a.equals(mk_rs)) {
-                                new client_Interface("Name_1");
+                                getName = tfTk.getText();
+                                new client_Interface(getName);
                                 dispose();
                             } else {
                                 error.setText("Tài khoản hoặc mật khẩu không chính xác!");
@@ -169,17 +171,23 @@ public class Login extends JFrame {
         mainPanel.add(panelXnMk);
         mainPanel.add(panelEr);
 
+        mainPanel1 = new JPanel();
+        mainPanel1.setLayout(new BoxLayout(mainPanel1,BoxLayout.X_AXIS));
+        mainPanel1.add(panelBtn);
+        mainPanel1.setBorder(BorderFactory.createEmptyBorder(8,0,0,374));
+        mainPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.LIGHT_GRAY));
+        mainPanel.setBackground(Color.WHITE);
+
         mainImg = new JPanel();
-//        mainImg.setLayout(new BoxLayout(mainImg,BoxLayout.X_AXIS));
         img = new ImageIcon("img/images.png");
         Image dabImage = img.getImage();
-        Image setImg = dabImage.getScaledInstance(250,125, Image.SCALE_SMOOTH);
+        Image setImg = dabImage.getScaledInstance(225,125, Image.SCALE_SMOOTH);
         img = new ImageIcon(setImg);
         lbImg = new JLabel(img);
         lbTitleImg = new JLabel("TCP/ LOGIN CLIENT ");
         mainImg.add(lbImg);
         mainImg.add(lbTitleImg);
-        mainImg.setBorder(BorderFactory.createEmptyBorder(0,-180,0,0));
+        mainImg.setBorder(BorderFactory.createEmptyBorder(0,-194,0,0));
         main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 //        main.add(mainImg);
@@ -190,21 +198,18 @@ public class Login extends JFrame {
         panelXnMk.setBackground(Color.white);
         mainPanel.add(panelHdnBtn);
         main.setVisible(false);
-        add(panelBtn, BorderLayout.NORTH);
 
 
         main1 = new JPanel();
         main1.setLayout(new BoxLayout(main1, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.black));
-        mainPanel.setBackground(Color.WHITE);
         main1.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
         btnDn_Hiden.setVisible(true);
         btnDn.setBorderPainted(false);
-        btnDn.setBackground(Color.LIGHT_GRAY);
-        btnDk.setBackground(Color.cyan);
+        btnDn.setBackground(Color.CYAN);
+        btnDk.setBackground(Color.LIGHT_GRAY);
         main1.add(mainImg);
+        main1.add(mainPanel1);
         main1.add(mainPanel);
-
 
         this.add(main);
         this.add(main1);
@@ -213,14 +218,14 @@ public class Login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btnDn.setBorderPainted(false);
-                btnDn.setBackground(Color.LIGHT_GRAY);
+                btnDn.setBackground(Color.CYAN);
                 btnDk.setBorderPainted(true);
-                btnDk.setBackground(Color.CYAN);
+                btnDk.setBackground(Color.LIGHT_GRAY);
                 btnDn_Hiden.setVisible(true);
                 btnDk_Hiden.setVisible(false);
                 panelXnMk.setVisible(false);
                 main.setVisible(true);
-                mainPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.black));
+                mainPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.LIGHT_GRAY));
                 main.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
                 tfTk.setText(null);
                 tfMk.setText(null);
@@ -231,14 +236,14 @@ public class Login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btnDn.setBorderPainted(false);
-                btnDn.setBackground(Color.CYAN);
+                btnDn.setBackground(Color.LIGHT_GRAY);
                 btnDk.setBorderPainted(true);
-                btnDk.setBackground(Color.LIGHT_GRAY);
+                btnDk.setBackground(Color.CYAN);
                 btnDk_Hiden.setVisible(true);
                 btnDn_Hiden.setVisible(false);
                 panelXnMk.setVisible(true);
                 main.setVisible(true);
-                mainPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.black));
+                mainPanel.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.LIGHT_GRAY));
                 main.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
             }
         });

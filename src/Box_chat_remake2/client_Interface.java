@@ -10,13 +10,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class client_Interface extends JFrame {
-    JPanel mainPanel, outpPanel, outpPanel1, outpPanel2, inpPanel, addressPanel;
+    JPanel mainPanel,mainImg, outpPanel, outpPanel1, outpPanel2, inpPanel, addressPanel;
     JTextArea txaOup, txaInp, txaOup1;
-    static JButton send, connect, openFileTxt;
-    JLabel Messenger, lbTn, lbFile;
+    static JButton send, connect;
+    JLabel Messenger, lbTn, lbFile,lbImg,lbTitleImg;
     JTextField tfLocalhost, tfPort;
     JLabel lbIp, lbPort;
     JScrollPane jScrollPane;
+    Login lg;
 
     client_Thread clientThread;
     Socket socket;
@@ -53,7 +54,7 @@ public class client_Interface extends JFrame {
                 try {
                     port = Integer.parseInt(tfPort.getText());
                     socket = new Socket(adress, port);
-                    clientThread = new client_Thread(socket, "Name_1", client_Interface.this);
+                    clientThread = new client_Thread(socket, username, client_Interface.this);
                     clientThread.start();
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(null, "port là kiểu Integer",
@@ -63,27 +64,42 @@ public class client_Interface extends JFrame {
                 }
             }
         });
+
+        // Ảnh
+        mainImg = new JPanel();
+        ImageIcon img = new ImageIcon("img/images.png");
+        Image dabImage = img.getImage();
+        Image setImg = dabImage.getScaledInstance(165,75, Image.SCALE_SMOOTH);
+        img = new ImageIcon(setImg);
+        lbImg = new JLabel(img);
+        lbTitleImg = new JLabel("WELCOME TO MY BOX CHAT");
+        mainImg.add(lbImg);
+        mainImg.add(lbTitleImg);
+        mainImg.setBorder(BorderFactory.createEmptyBorder(0,-330,0,0));
         // Hiển thị nội dung chat
         outpPanel = new JPanel();
         outpPanel.setLayout(new BoxLayout(outpPanel, BoxLayout.X_AXIS));
-        outpPanel.setPreferredSize(new Dimension(500, 200));
+        outpPanel.setPreferredSize(new Dimension(700, 200));
         outpPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         outpPanel1 = new JPanel();
         outpPanel1.setLayout(new BoxLayout(outpPanel1, BoxLayout.Y_AXIS));
-        outpPanel1.setPreferredSize(new Dimension(350, 200));
+        outpPanel1.setPreferredSize(new Dimension(550, 200));
         outpPanel1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 
         outpPanel2 = new JPanel();
         outpPanel2.setLayout(new BoxLayout(outpPanel2, BoxLayout.Y_AXIS));
         outpPanel2.setPreferredSize(new Dimension(150, 200));
-        outpPanel2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+
 
         lbTn = new JLabel("Tin nhắn đã gửi");
         txaOup = new JTextArea();
-        lbFile = new JLabel("File đã gửi & đã nhận");
+        txaOup.setEditable(false);
+        lbFile = new JLabel("Account is using");
         jScrollPane = new JScrollPane();
         txaOup1 = new JTextArea();
+        txaOup1.append(username);
+        txaOup1.setEditable(false);
         jScrollPane.setViewportView(txaOup);
         outpPanel1.add(lbTn);
         outpPanel1.add(jScrollPane);
@@ -94,16 +110,15 @@ public class client_Interface extends JFrame {
         // Nhập nội dung chat
         inpPanel = new JPanel();
         inpPanel.setLayout(new BoxLayout(inpPanel, BoxLayout.X_AXIS));
-        inpPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+        inpPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
         Messenger = new JLabel("MESSENGER ");
         txaInp = new JTextArea((Document) null);
+        txaInp.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1));
         send = new JButton("SEND");
-        openFileTxt = new JButton("OPEN FILE .TXT");
+        send.setPreferredSize(new Dimension(150,20));
         inpPanel.add(Messenger);
         inpPanel.add(txaInp);
         inpPanel.add(send);
-        inpPanel.add(openFileTxt);
-
         // Thực hiện sự kiện nút send
         send.addActionListener(new ActionListener() {
             @Override
@@ -113,9 +128,11 @@ public class client_Interface extends JFrame {
                     String mess = txaInp.getText().trim();
                     if (mess.equals("")) {
                         System.out.println("Bạn muốn nhắn điều gì???");
+                        txaInp.setText(null);
                     } else {
                         if (mess.equals("\n")) {
                             System.out.println("Bạn không có gì để nhắn cả!!!");
+                            txaInp.setText(null);
                         } else {
                             txaInp.setText(null);
                             clientThread.sendMessage(mess);
@@ -129,6 +146,7 @@ public class client_Interface extends JFrame {
         // Khung chính
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(mainImg);
         mainPanel.add(outpPanel);
         mainPanel.add(inpPanel);
         this.add(addressPanel, BorderLayout.NORTH);

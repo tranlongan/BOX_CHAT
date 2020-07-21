@@ -14,6 +14,8 @@ public class client_Thread extends Thread {
     DataOutputStream dout;
     DataInputStream din;
 
+    Login l;
+
     public client_Thread(Socket socket, String userName, client_Interface client_interface){
         this.socket = socket;
         this.userName = userName;
